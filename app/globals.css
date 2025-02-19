@@ -19,7 +19,7 @@
 .page-wrapper {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background-color: black; /* Galaxy background is layered on top, but black base is good */
   display: flex;
