@@ -128,6 +128,11 @@ export default function BirthdayGift() {
         <div className="stars2"></div>
         <div className="stars3"></div>
         <div className="stars4"></div>
+        <div className="stars4"></div>
+        <div className="stars4"></div>
+        <div className="stars"></div>
+        <div className="stars"></div>
+
       </div>
 
       {/* Explosion Canvas */}
@@ -143,10 +148,13 @@ export default function BirthdayGift() {
       {showTronText && (
         <div className="tron-text">
           <h2>Now playing:</h2>
-          <h1>SoulChaster</h1>
+          <h1 className="block w-full text-center pt-2 pb-2"> {/* Make SoulChaster span full width */}
+            <span className="inline-block w-full">SoulChaster</span>
+          </h1>
           <h2>By Seth van der Bijl</h2>
         </div>
       )}
+
 
       {/* GIFT BOX */}
       <div className="birthday-gift">
