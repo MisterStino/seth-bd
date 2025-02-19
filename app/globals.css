@@ -2,20 +2,240 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ──────────────────────────────────────────────
+  Optional: If using a TRON font local file
+  In /public/TRON.TTF
+────────────────────────────────────────────── */
+/*
+@font-face {
+  font-family: "TRON";
+  src: url("/TRON.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+*/
+
+/* PAGE WRAPPER ensures we fill the screen */
+.page-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: black; /* Galaxy background is layered on top, but black base is good */
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  font-family: sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* BIRTHDAY GIFT at the bottom (adjust margin-bottom as needed) */
+.birthday-gift {
+  position: relative;
+  margin-bottom: 50px;
+}
+@media (min-width: 768px) {
+  .birthday-gift {
+    margin-bottom: 100px;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* Explosion Canvas (TOP) */
+.explosion-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* Confetti Canvas (BOTTOM) */
+.confetti-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* GIFT BOX & LID */
+.gift {
+  /* w-40 h-24 from the JSX, plus shadow */
+}
+.click {
+  transform-origin: bottom left;
+  transition: transform 0.3s;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 10;
+}
+#click:checked + .click {
+  transform: rotate(-110deg) scaleX(0.85) translateX(-10px);
+}
+.wishes {
+  position: absolute;
+  transition: transform 0.5s, opacity 0.5s;
+  opacity: 0;
+  top: -80px;
+}
+#click:checked ~ .wishes {
+  transform: translateY(-150px);
+  opacity: 1;
+}
+
+@font-face {
+  font-family: "TRON";
+  src: url("/TRON.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* TRON TEXT - Slightly bigger & lighter for better readability */
+.tron-text {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 999;
+  /* font-family: "TRON", sans-serif; if you have the TTF loaded */
+  font-family: "TRON", sans-serif; /* Now using your custom font */
+  font-weight: 400;
+  color: #4ff; /* Brighter than #0ff for better contrast */
+  text-shadow:
+    0 0 6px #0ff,
+    0 0 12px #0ff,
+    0 0 25px #0ff,
+    0 0 45px #0ff;
+  max-width: 80%;
+  line-height: 1.3;
+}
+.tron-text h1 {
+  font-size: 2.2rem;
+  margin: 0.25rem 0;
+}
+.tron-text h2 {
+  font-size: 1.4rem;
+  margin: 0.25rem 0;
+}
+@media (min-width: 768px) {
+  .tron-text h1 {
+    font-size: 2.7rem;
+  }
+  .tron-text h2 {
+    font-size: 1.7rem;
+  }
+}
+
+/* ───────────────────────────────────────────────
+   Galaxy/Star Layers with Bigger & More Stars
+────────────────────────────────────────────── */
+.bg-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* behind everything else */
+}
+
+/* Star Layers */
+.stars, .stars2, .stars3, .stars4 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+}
+
+/* Tiny stars (densest layer) */
+.stars {
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  box-shadow: 
+    112px 1400px #c49952, 500px 900px #c49952, 1400px 500px #c49952, 1800px 1200px #c49952, 
+    220px 1760px #c49952, 730px 150px #c49952, 880px 600px #c49952, 1520px 990px #c49952,
+    50px 780px #c49952, 1250px 1340px #c49952, 400px 200px #c49952, 600px 1750px #c49952,
+    1050px 300px #c49952, 1320px 1800px #c49952, 850px 1450px #c49952, 1750px 400px #c49952;
+  animation: animStar 50s linear infinite;
+}
+.stars:after {
+  content: "";
+  position: absolute;
+  top: 2000px;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+/* Medium stars */
+.stars2 {
+  width: 3px;
+  height: 3px;
+  background: transparent;
+  box-shadow: 
+    230px 500px #c49952, 1400px 140px #c49952, 1600px 720px #c49952, 750px 1100px #c49952, 
+    1900px 980px #c49952, 420px 1850px #c49952, 930px 100px #c49952, 1180px 1300px #c49952;
+  animation: animStar 100s linear infinite;
+}
+.stars2:after {
+  content: "";
+  position: absolute;
+  top: 2000px;
+  width: 3px;
+  height: 3px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+/* Bigger stars */
+.stars3 {
+  width: 4px;
+  height: 4px;
+  background: transparent;
+  box-shadow: 
+    820px 980px #c49952, 1550px 400px #c49952, 200px 1320px #c49952, 1080px 660px #c49952, 
+    1780px 920px #c49952, 500px 1800px #c49952, 1370px 1150px #c49952, 890px 330px #c49952;
+  animation: animStar 150s linear infinite;
+}
+.stars3:after {
+  content: "";
+  position: absolute;
+  top: 2000px;
+  width: 4px;
+  height: 4px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+/* Largest stars (rarest but bright) */
+.stars4 {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+  box-shadow: 
+    350px 1500px #c49952, 1250px 880px #c49952, 760px 300px #c49952, 1420px 640px #c49952, 
+    2000px 500px #c49952, 500px 1900px #c49952, 1150px 1200px #c49952, 1600px 300px #c49952;
+  animation: animStar 200s linear infinite;
+}
+.stars4:after {
+  content: "";
+  position: absolute;
+  top: 2000px;
+  width: 6px;
+  height: 6px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+/* Keyframes for smooth star movement */
+@keyframes animStar {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2000px); }
 }
